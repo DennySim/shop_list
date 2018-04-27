@@ -33,15 +33,16 @@ def create_shop_list_by_dishes(order, person_count):
   shop_list = {}
   new_shop_list_item = {}
   menu = create_menu_dict()
-  for dish_from_menu in menu:
-      if dish_from_menu in order:
-          new_shop_list_item = menu.get(dish_from_menu)
-          for i in new_shop_list_item:
-              new_shop_list_item[i]['quantity'] *= person_count
-              if i not in shop_list:
-                  shop_list[i] = new_shop_list_item[i]
-              else:
-                  shop_list[new_shop_list_item[i]]['quantity'] += new_shop_list_item['quantity']
+  # for dish_from_menu in menu:
+  #     if dish_from_menu in order:
+  for dish_from_menu in order:
+      new_shop_list_item = menu.get(dish_from_menu)
+      for i in new_shop_list_item:
+          new_shop_list_item[i]['quantity'] *= person_count
+          if i not in shop_list:
+              shop_list[i] = new_shop_list_item[i]
+          else:
+              shop_list[new_shop_list_item[i]]['quantity'] += new_shop_list_item['quantity']
 
   return shop_list
 
