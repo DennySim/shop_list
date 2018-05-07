@@ -1,53 +1,20 @@
-
+# Первый вариант
 # def create_menu_dict():
-#    with open('recipes_list.txt') as dishes:
-#        cook_book = {}
-#        for dish in dishes:
-#            dish = dish.strip().lower()
-#            ing_quantity = int(dishes.readline().strip())
-#            for i in range(ing_quantity):
-#                ing = dishes.readline().split('|')
-#                new_shop_list_item = {'ingridient_name': ing[0].strip(), 'quantity': int(ing[1].strip()),
-#                                     'measure': ing[2].strip()}
-#                cook_book[dish] = new_shop_list_item
-#            dishes.readline().strip()
-#    return cook_book
+#     with open('recipes_list.txt') as dishes:
+#         cook_book = {}
+#         for dish in dishes:
+#             dish = dish.strip().lower()
+#             ing_quantity = int(dishes.readline().strip())
+#             for i in range(ing_quantity):
+#                 ing = dishes.readline().split('|')
+#                 new_shop_list_item = {'ingridient_name': ing[0].strip(), 'quantity': int(ing[1].strip()),
+#                                      'measure': ing[2].strip()}
+#                 cook_book[dish] = new_shop_list_item
+#             dishes.readline().strip()
+#     return cook_book
 
-def create_menu_dict():
-   with open('recipes_list.txt') as dishes:
-       cook_book = {}
-       for dish in dishes:
-           dish = dish.strip().lower()
-           ing_quantity = int(dishes.readline().strip())
-           cook_book[dish] = {}
-           for i in range(ing_quantity):
-               ing = dishes.readline().split('|')
-               new_shop_list_item = {'ingridient_name': ing[0].strip(), 'quantity': int(ing[1].strip()),
-                                    'measure': ing[2].strip()}
-               cook_book[dish][ing[0].strip()] = new_shop_list_item
-           dishes.readline().strip()
-   return cook_book
-
-
-def create_shop_list_by_dishes(order, person_count):
-  shop_list = {}
-  new_shop_list_item = {}
-  menu = create_menu_dict()
-  # for dish_from_menu in menu:
-  #     if dish_from_menu in order:
-  for dish_from_menu in order:
-      new_shop_list_item = menu.get(dish_from_menu)
-      for i in new_shop_list_item:
-          new_shop_list_item[i]['quantity'] *= person_count
-          if i not in shop_list:
-              shop_list[i] = new_shop_list_item[i]
-          else:
-              shop_list[new_shop_list_item[i]]['quantity'] += new_shop_list_item['quantity']
-
-  return shop_list
-
-
-# def get_shop_list_by_dishes(order, person_count):
+# Первый вариант
+# def create_shop_list_by_dishes(order, person_count):
 #   with open('recipes_list.txt') as dishes:
 #       shop_list = {}
 #       for dish in dishes:
@@ -59,12 +26,12 @@ def create_shop_list_by_dishes(order, person_count):
 #                   dishes.readline().strip()
 #           else:
 #               ing_quantity = int(dishes.readline().strip())
-#               print("кол-во", ing_quantity)
+#               # print("кол-во", ing_quantity)
 #               for i in range(ing_quantity):
 #                   ing = dishes.readline().split('|')
 #                   new_shop_list_item = {'ingridient_name': ing[0].strip(), 'quantity': int(ing[1].strip()),
 #                                         'measure': ing[2].strip()}
-#                   print('item=', new_shop_list_item)
+#                   # print('item=', new_shop_list_item)
 #                   new_shop_list_item['quantity'] *= person_count
 #                   if new_shop_list_item['ingridient_name'] not in shop_list:
 #                       shop_list[new_shop_list_item['ingridient_name']] = new_shop_list_item
@@ -74,10 +41,49 @@ def create_shop_list_by_dishes(order, person_count):
 #   return shop_list
 
 
+# Второй вариант
+def create_menu_dict():
+    with open('recipes_list.txt') as dishes:
+        cook_book = {}
+        for dish in dishes:
+            dish = dish.strip().lower()
+            ing_quantity = int(dishes.readline().strip())
+            cook_book[dish] = {}
+            for i in range(ing_quantity):
+                ing = dishes.readline().split('|')
+                new_shop_list_item = {'ingridient_name': ing[0].strip(), 'quantity': int(ing[1].strip()),
+                                     'measure': ing[2].strip()}
+                cook_book[dish][ing[0].strip()] = new_shop_list_item
+            dishes.readline().strip()
+    return cook_book
+
+
+# Второй вариант
+def create_shop_list_by_dishes(order, person_count):
+    shop_list = {}
+    menu = create_menu_dict()
+    for dish_from_menu in order:
+        new_shop_list_item = {}
+        for ing in menu.get(dish_from_menu):
+            new_shop_list_item[ing] = {'ingridient_name': menu.get(dish_from_menu)[ing]['ingridient_name'],
+                                      'quantity': menu.get(dish_from_menu)[ing]['quantity'],
+                                      'measure': menu.get(dish_from_menu)[ing]['measure']}
+
+        for i in new_shop_list_item:
+            new_shop_list_item[i]['quantity'] *= person_count
+
+            if i not in shop_list:
+                shop_list[i] = new_shop_list_item[i]
+            else:
+                shop_list[i]['quantity'] += new_shop_list_item[i]['quantity']
+
+    return shop_list
+
+
 def print_shop_list(shop_list):
-  for shop_list_item in shop_list.values():
-    print('{} {} {}'.format(shop_list_item['ingridient_name'], shop_list_item['quantity'],
-                            shop_list_item['measure']))
+    for shop_list_item in shop_list.values():
+        print('{} {} {}'.format(shop_list_item['ingridient_name'], shop_list_item['quantity'],
+                               shop_list_item['measure']))
 
 
 def create_shop_list():
